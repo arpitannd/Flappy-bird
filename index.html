@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* content properties for setting bg to screen fit */
+        #sky {
+            background-color: rgb(225, 155, 253);
+        }
+
+        #everything {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+
+        .divContent {
+            height: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .container1 {
+            width: 130px;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+            /* doubt about relative position */
+        }
+
+        .pipe1 {
+            transform: rotate(180deg);
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 0px;
+        }
+
+        .container2 {
+            width: 130px;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .pipe2 {
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            /* flip image */
+            width: 100%;
+            top: 0;
+        }
+
+        .middle {
+            height: 200px;
+            /* 200px is minimum */
+        }
+        
+    </style>
+    <title>Flappy</title>
+</head>
+
+<body id="sky">
+    <div class="" id="background">
+        <div class="flex flex-row justify-evenly" id="everything">
+            <div class="divContent flex flex-col justify-between" id="content1">
+                <div class="container1">
+                    <img class="pipe1" src="assets/pipe.png" id="img11" alt="">
+                </div>
+                <div class="middle"></div>
+                <div class="container2">
+                    <img class="pipe2" src="assets/pipe.png" id="img12" alt="">
+                </div>
+            </div>
+            <div class="divContent flex flex-col justify-between" id="content2">
+                <div class="container1">
+                    <img class="pipe1" src="assets/pipe.png" id="img21" alt="">
+                </div>
+                <div class="middle"></div>
+                <div class="container2">
+                    <img class="pipe2" src="assets/pipe.png" id="img22" alt="">
+                </div>
+            </div>
+            <div class="divContent flex flex-col justify-between" id="content3">
+                <div class="container1">
+                    <img class="pipe1" src="assets/pipe.png" id="img31" alt="">
+                </div>
+                <div class="middle"></div>
+                <div class="container2">
+                    <img class="pipe2" src="assets/pipe.png" id="img32" alt="">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+
+</html>
