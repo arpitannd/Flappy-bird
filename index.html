@@ -107,7 +107,7 @@
         }
 
         .middle {
-            min-height: 150px;
+            min-height: 250px;
             /* 200px is minimum */
         }
 
@@ -158,24 +158,13 @@
             position: absolute;
             animation: birdMove 1.5s linear 0s infinite;
         }
-
-        /* @-webkit-keyframes birdMove {
-            from {
-                top: 30%;
-                left: 30%;
-            }
-
-            to {
-                left: 30%;
-                top: 100%;
-            }
-        } */
     </style>
     <title>Flappy Bird</title>
 </head>
 
 <body id="sky">
     <h1 class="flex justify-center text-7xl font-bold" id="score"></h1>
+    <h1 class="flex justify-center text-2xl font-medium" id="refresh"></h1>
     <div class="flex flex-row justify-evenly" id="background">
         <div class="divContent flex flex-col justify-between" id="content1">
             <div class="container11">
