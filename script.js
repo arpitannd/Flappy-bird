@@ -7,7 +7,9 @@ const pipe31 = document.querySelector('.container31')
 const pipe32 = document.querySelector('.container32')
 const pipe41 = document.querySelector('.container41')
 const pipe42 = document.querySelector('.container42')
+const bg = document.querySelector('#background')
 const score = document.querySelector('#score')
+const refresh = document.querySelector('#refresh')
 
 function adjustHeight(pipe1, pipe2) {
     let h1 = Math.random() * 1000;
@@ -19,20 +21,66 @@ function adjustHeight(pipe1, pipe2) {
     pipe2.style.height = `${h2}px`
 }
 
+function outside() {
+    var birdie = bird.getBoundingClientRect();
+    if (birdie.y < 0 || birdie.y > window.innerHeight) return true
+}
+
+function collisionDetection(x, y, width, height) {
+    var birdie = bird.getBoundingClientRect();
+    if (birdie.x + birdie.width >= x &&
+        birdie.x <= x + width &&
+        birdie.y + birdie.height >= y &&
+        birdie.y <= y + height) {
+        return true
+    }
+    return false
+}
+
 let scoreInitial = -4
 let check1 = 1
 let check2 = 1
 let check3 = 1
 let check4 = 1
 
+let freeze = 1
 
 function passPipes() {
     var pipe1 = pipe11.getBoundingClientRect();
+    var pipe1B = pipe12.getBoundingClientRect();
     var pipe2 = pipe21.getBoundingClientRect();
+    var pipe2B = pipe22.getBoundingClientRect();
     var pipe3 = pipe31.getBoundingClientRect();
+    var pipe3B = pipe32.getBoundingClientRect();
     var pipe4 = pipe41.getBoundingClientRect();
+    var pipe4B = pipe42.getBoundingClientRect();
+
+    if (freeze && (outside() || collisionDetection(pipe1.x, pipe1.y, pipe1.width, pipe1.height) ||
+        collisionDetection(pipe2.x, pipe2.y, pipe2.width, pipe2.height) ||
+        collisionDetection(pipe3.x, pipe3.y, pipe3.width, pipe3.height) ||
+        collisionDetection(pipe4.x, pipe4.y, pipe4.width, pipe4.height) ||
+        collisionDetection(pipe1B.x, pipe1B.y, pipe1B.width, pipe1B.height) ||
+        collisionDetection(pipe2B.x, pipe2B.y, pipe2B.width, pipe2B.height) ||
+        collisionDetection(pipe3B.x, pipe3B.y, pipe3B.width, pipe3B.height) ||
+        collisionDetection(pipe4B.x, pipe4B.y, pipe4B.width, pipe4B.height))) {
+            background.style.visibility = 'hidden'
+            clearInterval(pipeCheck)
+            bird.style.transition = '0s'
+            bird.style.visibility = 'hidden'
+            let sc = score.innerHTML
+            score.innerHTML = `Your Score: ${sc}`
+            refresh.innerHTML = 'Press any key to Restart'
+            window.addEventListener('keydown', () => {
+                window.location.reload();
+            })
+            window.addEventListener('touchstart', () => {
+                window.location.reload();
+            })
+            freeze = 0
+        }
 
     for (let i = 1; i <= 4; i++) {
+
         if (pipe1.x < '-100') adjustHeight(pipe11, pipe12)
         if (pipe2.x < '-100') adjustHeight(pipe21, pipe22)
         if (pipe3.x < '-100') adjustHeight(pipe31, pipe32)
@@ -69,26 +117,20 @@ function passPipes() {
     }
 }
 
-setInterval(() => {
+let pipeCheck = setInterval(() => {
     passPipes()
-}, 50)
+}, 10)
 
 let falling = 1
 bird.style.transition = '0.3s'
 
-const delay = (delayInms) => {
-    return new Promise(resolve => setTimeout(resolve, delayInms));
-}
-
 async function fly() {
     bird.style.transition = '0.2s'
-    console.log('fly')
     let pos = bird.getBoundingClientRect();
     let height = pos.y
     bird.style.transform = 'rotate(-30deg)'
     bird.style.top = `${height - 100}px`
     falling = 1
-    let delayres = await delay(0)
     fall()
     bird.style.transition = '0.3s'
 }
@@ -97,10 +139,13 @@ window.addEventListener('keydown', () => {
     falling = 0;
 })
 
+window.addEventListener('touchstart', () => {
+    falling = 0;
+})
+
 function fall() {
     let i = 0
     let intervalId = setInterval(async () => {
-        console.log('fall')
         let pos = bird.getBoundingClientRect();
         let height = pos.y
         if (10 + i < 120) {
@@ -117,6 +162,13 @@ function fall() {
 
 let first = 1
 window.addEventListener('keydown', () => {
+    if (first === 1) {
+        firstFall()
+    }
+    first = 0
+})
+
+window.addEventListener('touchstart', () => {
     if (first === 1) {
         firstFall()
     }
